@@ -22,10 +22,10 @@ if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
   fi
 fi
 
-# Inject COMPOSIO_API_KEY
+# Inject COMPOSIO_API_KEY (format resmi dari dokumentasi zeroclaw)
 if [ -n "$COMPOSIO_API_KEY" ]; then
-  if ! grep -q "\[tools.composio\]" "$CONFIG"; then
-    printf '\n[tools.composio]\nenabled = true\napi_key = "%s"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
+  if ! grep -q "^\[composio\]" "$CONFIG"; then
+    printf '\n[composio]\nenabled = true\napi_key = "%s"\nentity_id = "default"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
   fi
 fi
 
