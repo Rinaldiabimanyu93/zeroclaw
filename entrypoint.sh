@@ -8,10 +8,10 @@ if [ -n "$OPENROUTER_API_KEY" ]; then
   sed -i "s|api_key = \"\"|api_key = \"${OPENROUTER_API_KEY}\"|" "$CONFIG"
 fi
 
-# Inject SYSTEM_PROMPT
+# Inject SYSTEM_PROMPT (harus sebelum [gateway] section!)
 if [ -n "$ZEROCLAW_SYSTEM_PROMPT" ]; then
   if ! grep -q "^system_prompt" "$CONFIG"; then
-    printf '\nsystem_prompt = "%s"\n' "${ZEROCLAW_SYSTEM_PROMPT}" >> "$CONFIG"
+    sed -i "s|\[gateway\]|system_prompt = \"${ZEROCLAW_SYSTEM_PROMPT}\"\n\n[gateway]|" "$CONFIG"
   fi
 fi
 
@@ -22,7 +22,7 @@ if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
   fi
 fi
 
-# Inject COMPOSIO_API_KEY (format resmi dari dokumentasi zeroclaw)
+# Inject COMPOSIO_API_KEY
 if [ -n "$COMPOSIO_API_KEY" ]; then
   if ! grep -q "^\[composio\]" "$CONFIG"; then
     printf '\n[composio]\nenabled = true\napi_key = "%s"\nentity_id = "default"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
