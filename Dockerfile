@@ -1,5 +1,4 @@
 # syntax=docker/dockerfile:1.7
-# rebuild v3
 
 # ── Stage 1: Build ────────────────────────────────────────────
 FROM rust:1.93-slim@sha256:9663b80a1621253d30b146454f903de48f0af925c967be48c84745537cd35d8b AS builder
@@ -19,7 +18,7 @@ RUN mkdir -p src benches crates/robot-kit/src \
     && echo "fn main() {}" > src/main.rs \
     && echo "fn main() {}" > benches/agent_benchmarks.rs \
     && echo "pub fn placeholder() {}" > crates/robot-kit/src/lib.rs
-RUN cargo build --release --locked
+RUN cargo build --release
 RUN rm -rf src benches crates/robot-kit/src
 
 # 2. Copy only build-relevant source paths
@@ -45,7 +44,7 @@ RUN mkdir -p web/dist && \
         '  </body>' \
         '</html>' > web/dist/index.html; \
     fi
-RUN cargo build --release --locked && \
+RUN cargo build --release && \
     cp target/release/zeroclaw /app/zeroclaw && \
     strip /app/zeroclaw
 
