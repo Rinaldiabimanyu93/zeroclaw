@@ -22,5 +22,12 @@ if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
   fi
 fi
 
+# Inject COMPOSIO_API_KEY
+if [ -n "$COMPOSIO_API_KEY" ]; then
+  if ! grep -q "\[tools.composio\]" "$CONFIG"; then
+    printf '\n[tools.composio]\nenabled = true\napi_key = "%s"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
+  fi
+fi
+
 echo "=== Config ready, starting ZeroClaw daemon ==="
 exec zeroclaw daemon
