@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1.7
+# rebuild v3
 
 # ── Stage 1: Build ────────────────────────────────────────────
 FROM rust:1.93-slim@sha256:9663b80a1621253d30b146454f903de48f0af925c967be48c84745537cd35d8b AS builder
