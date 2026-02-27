@@ -25,7 +25,7 @@ fi
 # Inject COMPOSIO_API_KEY
 if [ -n "$COMPOSIO_API_KEY" ]; then
   if ! grep -q "^\[composio\]" "$CONFIG"; then
-    printf '\n[composio]\nenabled = true\napi_key = "%s"\nentity_id = "default"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
+    printf '\n[composio]\nenabled = true\napi_key = "%s"\nentity_id = "pg-test-b9f8d056-65c3-44ac-8a6b-540a1dc4c1ea"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
   fi
 fi
 
