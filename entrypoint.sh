@@ -8,7 +8,7 @@ if [ -n "$OPENROUTER_API_KEY" ]; then
   sed -i "s|api_key = \"\"|api_key = \"${OPENROUTER_API_KEY}\"|" "$CONFIG"
 fi
 
-# Inject SYSTEM_PROMPT (harus sebelum [gateway] section!)
+# Inject SYSTEM_PROMPT
 if [ -n "$ZEROCLAW_SYSTEM_PROMPT" ]; then
   if ! grep -q "^system_prompt" "$CONFIG"; then
     sed -i "s|\[gateway\]|system_prompt = \"${ZEROCLAW_SYSTEM_PROMPT}\"\n\n[gateway]|" "$CONFIG"
@@ -22,10 +22,10 @@ if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
   fi
 fi
 
-# Inject COMPOSIO_API_KEY
+# Inject Composio MCP via HTTP
 if [ -n "$COMPOSIO_API_KEY" ]; then
-  if ! grep -q "^\[composio\]" "$CONFIG"; then
-    printf '\n[composio]\nenabled = true\napi_key = "%s"\nentity_id = "pg-test-b9f8d056-65c3-44ac-8a6b-540a1dc4c1ea"\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
+  if ! grep -q "\[mcp\]" "$CONFIG"; then
+    printf '\n[mcp]\n[[mcp.servers]]\nname = "composio"\ntransport = "http"\nurl = "https://backend.composio.dev/v3/mcp/44de0983-ba85-44e5-802f-fe06e0113fff/mcp?user_id=pg-test-b9f8d056-65c3-44ac-8a6b-540a1dc4c1ea"\nheaders = { x-api-key = "%s" }\n' "${COMPOSIO_API_KEY}" >> "$CONFIG"
   fi
 fi
 
